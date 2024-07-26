@@ -1,5 +1,7 @@
 import plotly.express as px
 import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
 
 def create_bar_chart(data, category, split_column=None):
     """
@@ -81,4 +83,14 @@ def create_line_chart(data, numeric_column, split_column=None):
     
     # Show the chart
     fig.show()
-    
+
+def create_heat_map(data):
+    plt.figure(figsize=(30, 10))
+    # Create the heatmap
+    sns.heatmap(data, annot=True, cmap='coolwarm', fmt='.2f', linewidths=0.5)
+
+    # Set the title of the heatmap
+    plt.title('Correlation Matrix')
+
+    # Show the plot
+    plt.show()
