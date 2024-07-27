@@ -85,12 +85,43 @@ def create_line_chart(data, numeric_column, split_column=None):
     fig.show()
 
 def create_heat_map(data):
+    """
+    Create a heatmap for the given DataFrame using Seaborn.
+
+    Parameters:
+    - data: A pandas DataFrame representing a correlation matrix.
+
+    Returns:
+    - None
+    """
+    
     plt.figure(figsize=(30, 10))
-    # Create the heatmap
+
     sns.heatmap(data, annot=True, cmap='coolwarm', fmt='.2f', linewidths=0.5)
 
-    # Set the title of the heatmap
     plt.title('Correlation Matrix')
 
-    # Show the plot
+    plt.show()
+
+def create_pie_chart(data):
+    """
+    Create a pie chart for the given data using Matplotlib.
+
+    Parameters:
+    - data: A pandas DataFrame or Series representing the data to plot. If DataFrame, the column "AR" is used.
+
+    Returns:
+    - None
+    """
+    count = ""
+    if isinstance(data, pd.DataFrame):
+        count = data["AR"].value_counts()
+    else:
+        count = data.value_counts()
+
+
+    count.plot(kind = 'pie', explode = [0, 0.1], 
+
+                figsize = (6, 6), autopct = '%1.1f%%', shadow = True)
+
     plt.show()
