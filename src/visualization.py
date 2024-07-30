@@ -13,6 +13,7 @@ def create_bar_chart(data, category, split_column=None):
     - category: The column name in the DataFrame for which to create the bar chart.
     - split_column: Optional; the column name in the DataFrame to split the data by (e.g., 'AR').
     """
+
     
     if split_column:
         # Check if split_column exists in the data
@@ -21,28 +22,44 @@ def create_bar_chart(data, category, split_column=None):
         
         # Compute value counts for the category, split by the split_column
         grouped_data = data.groupby([split_column, category]).size().reset_index(name='Count')
+        if split_column == 'AR':
+            # Map 0 to 'Approved' and 1 to 'Rejected'
+            grouped_data["AR"] = grouped_data["AR"].map({0: 'Approved', 1: 'Rejected'})
         
-        # Create the bar chart using Plotly
-        fig = px.histogram(grouped_data, x=category, y='Count', color=split_column, 
-                     title=f'Bar Chart of {category} by {split_column}',
-                     labels={category: category, 'Count': 'Count', split_column: split_column},text_auto=True,barmode="group")
+        # Create the bar chart using Seaborn
+        # plt.figure(figsize=(10, 6))
+        ax=sns.barplot(data=grouped_data, x=category, y='Count', hue=split_column)
+        plt.title(f'Bar Chart of {category} by {split_column}')
+        plt.xlabel(category)
+        plt.ylabel('Count')
+        plt.xticks(rotation=45)
+        plt.tight_layout()
+       
         
         
     else:
-        # Compute value counts and reset index to prepare data for Plotly
+        if category == 'AR':
+        # Map 0 to 'Approved' and 1 to 'Rejected'
+            data[category] = data[category].map({0: 'Approved', 1: 'Rejected'})
+        # Compute value counts and reset index to prepare data for Seaborn
         value_counts = data[category].value_counts().reset_index()
         value_counts.columns = [category, 'Count']
         
-        # Create the bar chart using Plotly
-        fig = px.bar(value_counts, x=category, y='Count', 
-                     title=f'Bar Chart of {category}', 
-                     labels={category: category, 'Count': 'Count'})
-    
-    # Update layout for better appearance
-    fig.update_layout(xaxis_title=category, yaxis_title='Count', xaxis_tickangle=-45)
-    
-    # Show the chart
-    fig.show()
+        # Create the bar chart using Seaborn
+        # plt.figure(figsize=(10, 6))
+        ax=sns.barplot(data=value_counts, x=category, y='Count',palette="tab10",hue=category)
+        plt.title(f'Bar Chart of {category}')
+        plt.xlabel(category)
+        plt.ylabel('Count')
+        plt.xticks(rotation=45)
+        plt.tight_layout()
+        # Annotate bars with values
+        for p in ax.patches:
+            ax.annotate(f'{p.get_height():.0f}', 
+                        (p.get_x() + p.get_width() / 2., p.get_height()), 
+                        ha = 'center', va = 'baseline', 
+                        fontsize=10, color='black', xytext=(0, 5), 
+                        textcoords='offset points')
 
 def create_line_chart(data, numeric_column, split_column=None):
     """
@@ -101,7 +118,7 @@ def create_heat_map(data):
 
     plt.title('Correlation Matrix')
 
-    plt.show()
+   
 
 def create_pie_chart(data):
     """

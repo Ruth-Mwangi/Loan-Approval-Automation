@@ -98,7 +98,8 @@ def combine_features(feature_list,data):
     Returns:
     - The DataFrame with combined features.
     """
-
+    
     new_feature_name="&".join(feature_list)
+    data[new_feature_name]=(data[feature_list[0]]**3)*data[feature_list[1]].astype(int)
     return data
 
