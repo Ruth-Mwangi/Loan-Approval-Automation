@@ -162,4 +162,4 @@ cython_debug/
 #.idea/
 
 structure_guide.txt
-data/processed
+data/processed/*
