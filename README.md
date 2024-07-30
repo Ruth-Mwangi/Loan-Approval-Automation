@@ -93,3 +93,41 @@ Contains the saved models
 - **Ensure Dependencies**: Install required libraries listed in `requirements.txt`.
 - **Data Files**: Verify that data files are placed in the correct directories (`data/raw/` and `data/processed/`).
 - **Environment**: Run notebooks in a consistent environment with all dependencies and data accessible.
+
+## Using Pickled Model Files
+
+The `models/` directory contains pickled files of trained machine learning models. Pickling is a way to serialize and deserialize Python objects, allowing you to save a model after training and load it later for inference or further analysis. Here's how to use these pickled models:
+
+### Loading a Pickled Model
+
+To use a pickled model, follow these steps:
+
+1. **Import Required Libraries**:
+   Ensure you have the necessary libraries imported. For model loading, you will need `pickle` or `joblib` (depending on how the model was saved).
+
+   ```python
+   import pickle
+   ```
+2. **Load the Model**
+    Use the appropriate method to load the model from the .pkl file. For example: 
+    ```python
+    # Using pickle, Replace with actual file directory and name
+
+    with open('models/model.pkl', 'rb') as file:
+        model = pickle.load(file)
+
+    # Example data for prediction.Replace this with actual data for prediction
+
+    sample_data = [[0.5, 1.2, 3.4, 0.7]]
+
+    # Predict using the loaded model
+
+    predictions = model.predict(sample_data)
+
+    print(predictions)
+    ```
+    ## Disclaimer
+
+    - **Replace Placeholder Data**: Ensure you replace any placeholder data and file names with your actual data and filenames when making predictions.
+    - **File Names**: Update the file names and paths to match your specific use case and file locations.
+    - **Dependencies**: Ensure that the environment where you load the model matches the one where it was trained, including library versions and configurations.
